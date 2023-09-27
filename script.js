@@ -3,6 +3,7 @@
 // Elements
 const color = document.querySelector("#colorPicker");
 const btnColor = document.querySelector("#colorMode");
+const btnRandom = document.querySelector("#randomMode");
 const btnEraser = document.querySelector("#eraserMode");
 const btnClear = document.querySelector("#clear");
 const sizeValue = document.querySelector(".sizeValue");
@@ -22,14 +23,18 @@ color.addEventListener("input", (event) => {
     chosenColor = event.target.value;
 });
 
-btnColor.addEventListener("click", (e) => {
+btnColor.addEventListener("click", () => {
     toggleActive(btnColor);
 
     color.disabled = false;
     chosenColor = color.value;
 });
 
-btnEraser.addEventListener("click", (e) => {
+btnRandom.addEventListener("click", () => {
+    toggleActive(btnRandom);
+});
+
+btnEraser.addEventListener("click", () => {
     toggleActive(btnEraser);
 
     color.disabled = true;
@@ -83,6 +88,14 @@ function toggleActive(btn) {
 
 function drawCell(event) {
     if (event.which === 1 && event.target !== event.currentTarget) {
-        event.target.style.backgroundColor = chosenColor;
+        if (btnRandom.className === "active") {
+            event.target.style.backgroundColor = `rgb(${randomNumber()}, ${randomNumber()}, ${randomNumber()})`;
+        } else {
+            event.target.style.backgroundColor = chosenColor;
+        }
     }
+}
+
+function randomNumber() {
+    return Math.floor(Math.random() * 255) + 1;
 }
